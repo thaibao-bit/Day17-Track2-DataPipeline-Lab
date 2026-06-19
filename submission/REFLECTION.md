@@ -20,3 +20,23 @@ Answer briefly, in your own words. This is graded on reasoning, not length.
    one where the graph is overkill.
 
 _Write your answers below._
+
+1. The quietest failure would be incorrect trace-to-Bronze normalization: fields
+   can still look valid while spans are assigned to the wrong trace or ordered
+   incorrectly. I would detect it with schema checks, row-count reconciliation,
+   unique trace/span keys, and sampled end-to-end assertions from raw traces to
+   generated examples.
+
+2. Skipping decontamination lets training memorize eval prompts and preferred
+   answers. Evaluation would then measure recall of seen examples rather than
+   generalization, producing suspiciously high win-rate or accuracy that drops
+   on a fresh, held-out prompt set.
+
+3. A dangerous example is a customer's chargeback status. Joining the latest
+   status to an earlier fraud-decision event would reveal a future outcome and
+   make the model appear able to predict chargebacks before they occurred.
+
+4. The graph is useful for "Where does a widget ship from?" because it traverses
+   `widget -> accessory -> Hanoi` across separate facts. It is overkill for a
+   direct fact such as "How long is the gadget warranty?", where one retrieved
+   chunk already contains the answer.
